@@ -16,6 +16,7 @@ Persist AssetPulse's approved small domain in a reproducible local SQL Server 20
 - Added the explicit Development-only `--seed-development-data` command. It migrates then inserts five deterministic demo assets once without overwriting later edits; normal API startup never migrates or seeds.
 - Added a model test plus an isolated real-SQL Server test that creates a guarded disposable `AssetPulse_Task002Tests_<guid>` database, migrates it, checks indexes/foreign keys/normalized-code constraints, and confirms repeatable seed behavior.
 - Updated the README with Docker, secret, migration, seed, test-isolation, cleanup, and persistence-restart instructions.
+- Added repository-root VS Code workspace settings so the frontend uses its installed TypeScript 5.9.3 instead of VS Code's bundled TypeScript 6.x. No TypeScript upgrade or `rootDir` workaround was added.
 
 No REST resource contracts, CRUD operations, UI work, dashboard behavior, or Task 003+ functionality was implemented.
 
@@ -27,6 +28,7 @@ No REST resource contracts, CRUD operations, UI work, dashboard behavior, or Tas
 - [InitialDataModel migration](../../backend/src/AssetPulse.Api/Data/Migrations/20260917233924_InitialDataModel.cs): initial SQL Server schema.
 - [DevelopmentDataSeeder.cs](../../backend/src/AssetPulse.Api/Data/DevelopmentDataSeeder.cs): explicit repeatable seed data.
 - [SqlServerPersistenceTests.cs](../../backend/tests/AssetPulse.Api.Tests/SqlServerPersistenceTests.cs): SQL Server-backed migration and seed coverage.
+- [VS Code workspace settings](../../.vscode/settings.json): select `frontend/node_modules/typescript/lib` for a repository-root workspace.
 - [README.md](../../README.md): local setup and guarded integration-test contract.
 
 ## Architecture and design decisions
@@ -57,10 +59,14 @@ Commands ran from `E:\asset-pulse` unless noted otherwise. Password values used 
 | SQL count query before and after `docker compose restart sqlserver` | Passed; persisted `Assets=5`, `Alarms=5`, `AssetEvents=11` both times. |
 | `dotnet format backend/AssetPulse.sln --verify-no-changes --no-restore` | Passed after normalizing EF generator line endings with the repository formatter. |
 | `git diff --check` | Passed. |
+| `node -p "require('./frontend/node_modules/typescript/package.json').version"` | Passed; confirmed TypeScript 5.9.3. |
+| `npm run lint` / `frontend` | Passed. |
+| `npm run test:ci` / `frontend` | Passed. |
+| `npm run build` / `frontend` | Passed; production build completed. |
 
 ## Results
 
-The initial migration created the intended SQL Server schema, identities, foreign keys, nullable fields, decimal precision, string enum representation, checks, and four query indexes. SQL Server-backed tests confirmed that duplicate normalized codes and invalid foreign keys fail, while valid relationships persist. The opt-in seed was confirmed idempotent and non-overwriting; its five assets, five alarms, and eleven events persisted through a container restart.
+The initial migration created the intended SQL Server schema, identities, foreign keys, nullable fields, decimal precision, string enum representation, checks, and four query indexes. SQL Server-backed tests confirmed that duplicate normalized codes and invalid foreign keys fail, while valid relationships persist. The opt-in seed was confirmed idempotent and non-overwriting; its five assets, five alarms, and eleven events persisted through a container restart. VS Code now selects the committed Angular project's TypeScript 5.9.3 SDK from the repository root.
 
 ## Known limitations
 
