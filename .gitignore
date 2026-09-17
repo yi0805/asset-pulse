@@ -1,0 +1,28 @@
+# .NET build and user-specific files
+**/[Bb]in/
+**/[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Node and Angular build output
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+npm-debug.log*
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+
+# IDE and operating system files
+.vs/
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db

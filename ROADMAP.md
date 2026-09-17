@@ -1,13 +1,13 @@
 # AssetPulse roadmap
 
-Task 000 is complete. Tasks 001-011 are the baseline; Task 012 is optional. No application work is authorized by this planning task. **Next: Task 001 — Application scaffold, after user approval.**
+Task 000 and Task 001 are complete. Tasks 002-011 are the remaining baseline; Task 012 is optional. **Next: Task 002 — SQL Server and EF Core data model.**
 
 Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Every task updates this file and creates its own completion handoff under `docs/handoffs/`. Read [AGENTS.md](AGENTS.md), [architecture](docs/ARCHITECTURE.md), and the latest completed handoff before starting. Run applicable completion commands from AGENTS.md and record exact results. A fresh session should implement only one authorized task.
 
 | Task | Title | Status | Dependencies |
 | --- | --- | --- | --- |
 | 000 | Project planning and architecture | Complete | None |
-| 001 | Application scaffold | Planned | 000; user approval |
+| 001 | Application scaffold | Complete | 000; user approval |
 | 002 | SQL Server and EF Core data model | Planned | 001 |
 | 003 | Core ASP.NET read API | Planned | 002 |
 | 004 | Angular application shell | Planned | 003 |
@@ -36,6 +36,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 - **Acceptance:** Both applications start; frontend can reach API health through the proxy; development ports/configuration are documented; baseline tests/builds/lint/format pass; no business features or database scaffold yet.
 - **Checks:** Execute backend and frontend completion commands from a clean dependency state; request API health directly and through the frontend proxy; verify ignored build output and secret files.
 - **Dependencies:** 000 and explicit approval to begin implementation.
+- **Result:** Angular 21/.NET 8 scaffold, quality command contract, health smoke test, and `/api` development proxy added without domain or database implementation. [Handoff](docs/handoffs/task-001-application-scaffold.md).
 
 ## Task 002 — SQL Server and EF Core data model
 
