@@ -8,7 +8,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 | --- | --- | --- | --- |
 | 000 | Project planning and architecture | Complete | None |
 | 001 | Application scaffold | Complete | 000; user approval |
-| 002 | SQL Server and EF Core data model | Planned | 001 |
+| 002 | SQL Server and EF Core data model | Complete | 001 |
 | 003 | Core ASP.NET read API | Planned | 002 |
 | 004 | Angular application shell | Planned | 003 |
 | 005 | Asset management | Planned | 003, 004 |
@@ -45,6 +45,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 - **Acceptance:** Migration applies to a fresh database; valid relationships persist and invalid foreign keys/duplicate normalized codes fail; seeded alarms produce the intended Healthy/Warning/Critical cases; a second seed does not duplicate or overwrite data; data survives container restart. No committed passwords and no automatic production seeding.
 - **Checks:** Compose configuration/readiness; migrate a disposable database from empty; verify constraints and representative EF reads against SQL Server; seed twice and inspect counts; restart persistence check; backend build/test/format checks. Record actual schema/index inspection.
 - **Dependencies:** 001.
+- **Result:** SQL Server 2022 Compose service, EF Core 8 model/configurations, initial migration, opt-in repeatable development seeding, and isolated SQL Server persistence coverage added and verified. [Handoff](docs/handoffs/task-002-sql-server-ef-core-model.md).
 
 ## Task 003 — Core ASP.NET read API
 
