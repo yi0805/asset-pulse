@@ -23,6 +23,7 @@ appsettings.*.local.json
 .vs/
 .idea/
 .vscode/
+!.vscode/
 !.vscode/extensions.json
 !.vscode/settings.json
 .DS_Store
