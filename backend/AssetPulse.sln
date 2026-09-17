@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{67CBF89C-E5EC-4E4A-9111-85E57E3C7217}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetPulse.Api", "src\AssetPulse.Api\AssetPulse.Api.csproj", "{60332E05-68A0-4015-A87B-5C9541D02853}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1E7C65D3-493D-4BF4-8413-FB8181D22499}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetPulse.Api.Tests", "tests\AssetPulse.Api.Tests\AssetPulse.Api.Tests.csproj", "{713F2456-D10B-4D93-BCDE-4AB4975AD129}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60332E05-68A0-4015-A87B-5C9541D02853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60332E05-68A0-4015-A87B-5C9541D02853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60332E05-68A0-4015-A87B-5C9541D02853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60332E05-68A0-4015-A87B-5C9541D02853}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713F2456-D10B-4D93-BCDE-4AB4975AD129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713F2456-D10B-4D93-BCDE-4AB4975AD129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713F2456-D10B-4D93-BCDE-4AB4975AD129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713F2456-D10B-4D93-BCDE-4AB4975AD129}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60332E05-68A0-4015-A87B-5C9541D02853} = {67CBF89C-E5EC-4E4A-9111-85E57E3C7217}
+		{713F2456-D10B-4D93-BCDE-4AB4975AD129} = {1E7C65D3-493D-4BF4-8413-FB8181D22499}
+	EndGlobalSection
+EndGlobal
