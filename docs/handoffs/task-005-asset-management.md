@@ -42,7 +42,7 @@ Task 006 alarm management has not started. Dashboard and alarms remain intention
 
 ## Git state / commit
 
-Branch: `task/005-asset-management`. Commit and PR are recorded after final diff review.
+Branch: `task/005-asset-management`. Final implementation commit: `bf8435f02c3509401dba7e25a7ada26eb8717dfb`; a follow-up `3487cb0259870842429196e484aeee9ec93d0179` preserves pre-existing workspace settings unchanged. The branch is pushed; PR creation is blocked because GitHub CLI authentication is unavailable.
 
 ## Exact recommended next task
 
