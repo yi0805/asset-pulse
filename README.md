@@ -101,6 +101,8 @@ npm start
 
 The Angular development server listens at `http://localhost:4200`. `frontend/proxy.conf.json` forwards relative `/api` requests to the API, so `http://localhost:4200/api/health` reaches the same health endpoint without enabling CORS.
 
+Task 004 adds the responsive Angular application shell and primary navigation. `/` redirects to `/dashboard`; `/dashboard`, `/assets`, `/assets/new`, `/assets/:id`, `/assets/:id/edit`, and `/alarms` are intentionally explicit placeholders until their respective feature tasks. Unknown routes display a Not Found page with a Dashboard link.
+
 ## Quality commands
 
 From the repository root:

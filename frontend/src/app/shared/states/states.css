@@ -1,0 +1,28 @@
+.state-message {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-muted);
+  margin: 0;
+  max-width: 48rem;
+  padding: var(--space-4);
+}
+
+.state-error {
+  border-left: 0.25rem solid var(--color-critical);
+  color: var(--color-text);
+}
+
+.state-error p {
+  margin: 0;
+}
+
+.state-error button {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+  margin-top: var(--space-3);
+  padding: 0.5rem 0.75rem;
+}

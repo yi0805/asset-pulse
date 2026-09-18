@@ -10,7 +10,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 | 001 | Application scaffold | Complete | 000; user approval |
 | 002 | SQL Server and EF Core data model | Complete | 001 |
 | 003 | Core ASP.NET read API | Complete | 002 |
-| 004 | Angular application shell | Planned | 003 |
+| 004 | Angular application shell | Complete | 003 |
 | 005 | Asset management | Planned | 003, 004 |
 | 006 | Alarm management | Planned | 005 |
 | 007 | Dashboard and visualization | Planned | 006 |
