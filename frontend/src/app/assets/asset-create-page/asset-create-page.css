@@ -1,0 +1,7 @@
+p {
+  color: var(--color-text-muted);
+}
+.save-error {
+  color: var(--color-critical);
+  font-weight: 600;
+}

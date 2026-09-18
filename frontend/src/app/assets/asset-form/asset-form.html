@@ -1,0 +1,49 @@
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <div class="form-grid">
+    <label>
+      <span>Name</span>
+      <input type="text" formControlName="name" maxlength="100" autocomplete="off" />
+      @if (errorFor('name'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+    <label>
+      <span>Asset code</span>
+      <input type="text" formControlName="assetCode" maxlength="32" autocomplete="off" />
+      @if (errorFor('assetCode'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+    <label>
+      <span>Type</span>
+      <input type="text" formControlName="type" maxlength="50" autocomplete="off" />
+      @if (errorFor('type'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+    <label>
+      <span>Location</span>
+      <input type="text" formControlName="location" maxlength="100" autocomplete="off" />
+      @if (errorFor('location'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+    <label>
+      <span>Temperature (°C)</span>
+      <input type="number" formControlName="temperature" min="-273.15" step="0.01" />
+      <small>Leave blank when unavailable.</small>
+      @if (errorFor('temperature'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+    <label>
+      <span>Pressure (kPa absolute)</span>
+      <input type="number" formControlName="pressure" min="0" step="0.01" />
+      <small>Leave blank when unavailable.</small>
+      @if (errorFor('pressure'); as error) {
+        <span class="field-error">{{ error }}</span>
+      }
+    </label>
+  </div>
+  <button type="submit" [disabled]="saving()">{{ saving() ? 'Saving…' : 'Save asset' }}</button>
+</form>

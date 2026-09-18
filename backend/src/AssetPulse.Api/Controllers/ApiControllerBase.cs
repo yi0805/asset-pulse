@@ -31,6 +31,27 @@ public abstract class ApiControllerBase : ControllerBase
             Instance = HttpContext.Request.Path
         });
 
+    protected ObjectResult AssetValidationProblem(Dictionary<string, string[]> errors) => ProblemResult(
+        new ValidationProblemDetails(errors)
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Title = "One or more validation errors occurred.",
+            Detail = "One or more asset fields are invalid.",
+            Instance = HttpContext.Request.Path
+        });
+
+    protected ObjectResult AssetCodeConflictProblem() => ProblemResult(
+        new ValidationProblemDetails(new Dictionary<string, string[]>
+        {
+            ["assetCode"] = ["An asset with this asset code already exists."]
+        })
+        {
+            Status = StatusCodes.Status409Conflict,
+            Title = "Asset code already exists.",
+            Detail = "Choose a different asset code.",
+            Instance = HttpContext.Request.Path
+        });
+
     private ObjectResult ProblemResult(ProblemDetails problemDetails)
     {
         problemDetails.Extensions["traceId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;

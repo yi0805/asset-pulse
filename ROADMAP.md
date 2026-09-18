@@ -1,6 +1,6 @@
 # AssetPulse roadmap
 
-Tasks 000-004 are complete. Tasks 005-011 remain in the baseline; Task 012 is optional. **Next: Task 005 — Asset management.**
+Tasks 000-005 are complete. Tasks 006-011 remain in the baseline; Task 012 is optional. **Next: Task 006 — Alarm management.**
 
 Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Every task updates this file and creates its own completion handoff under `docs/handoffs/`. Read [AGENTS.md](AGENTS.md), [architecture](docs/ARCHITECTURE.md), and the latest completed handoff before starting. Run applicable completion commands from AGENTS.md and record exact results. A fresh session should implement only one authorized task.
 
@@ -65,6 +65,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 
 ## Task 005 — Asset management
 
+- **Status:** Complete.
 - **Objective:** Deliver the end-to-end asset list, detail, creation, and editing workflow.
 - **Work:** Add POST/PUT asset endpoints, normalized unique codes, request validation, creation events and server-owned timestamps. Build paginated searchable/filterable asset list, details with readings/status/history, and reusable reactive create/edit form. Match client/server validation and label units/null readings clearly.
 - **Acceptance:** User can create an asset, find it, inspect it, and edit it; changes survive refresh; duplicate codes return 409 and show an actionable form error; invalid inputs are rejected on both sides; new assets start Healthy with an initial event; computed status cannot be edited. Every data page handles loading/error/empty states.

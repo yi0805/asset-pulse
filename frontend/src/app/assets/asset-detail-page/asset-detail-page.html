@@ -1,0 +1,81 @@
+@if (loading) {
+  <app-loading-state message="Loading asset…" />
+} @else if (error) {
+  <app-error-state
+    [message]="error.status === 404 ? 'This asset does not exist.' : error.detail || error.title"
+    [canRetry]="true"
+    (retry)="retry()"
+  />
+} @else if (asset) {
+  <section aria-labelledby="asset-heading">
+    <div class="heading">
+      <div>
+        <p class="eyebrow">{{ asset.assetCode }}</p>
+        <h1 id="asset-heading">{{ asset.name }}</h1>
+      </div>
+      <a [routerLink]="['/assets', asset.id, 'edit']" class="action-link">Edit asset</a>
+    </div>
+    <dl>
+      <div>
+        <dt>Type</dt>
+        <dd>{{ asset.type }}</dd>
+      </div>
+      <div>
+        <dt>Location</dt>
+        <dd>{{ asset.location }}</dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd>
+          <span class="status {{ asset.status.toLowerCase() }}">{{ asset.status }}</span>
+        </dd>
+      </div>
+      <div>
+        <dt>Temperature</dt>
+        <dd>{{ measurement(asset.temperature, '°C') }}</dd>
+      </div>
+      <div>
+        <dt>Pressure</dt>
+        <dd>{{ measurement(asset.pressure, 'kPa') }}</dd>
+      </div>
+      <div>
+        <dt>Last updated</dt>
+        <dd>
+          <time [dateTime]="asset.lastUpdated">{{ asset.lastUpdated | date: 'medium' }}</time>
+        </dd>
+      </div>
+    </dl>
+    <section aria-labelledby="history-heading">
+      <h2 id="history-heading">Status history</h2>
+      @if (events?.items?.length === 0) {
+        <app-empty-state message="No status history is available." />
+      } @else if (events) {
+        <ol class="history">
+          @for (event of events.items; track event.id) {
+            <li>
+              <strong>{{ transition(event) }}</strong
+              ><time [dateTime]="event.timestamp">{{ event.timestamp | date: 'medium' }}</time
+              ><span>{{ event.description }}</span>
+            </li>
+          }
+        </ol>
+        <nav class="pagination" aria-label="Status history pages">
+          <button
+            type="button"
+            [disabled]="events.page === 1"
+            (click)="changeHistoryPage(events.page - 1)"
+          >
+            Previous</button
+          ><span>Page {{ events.page }}</span
+          ><button
+            type="button"
+            [disabled]="events.page * events.pageSize >= events.totalCount"
+            (click)="changeHistoryPage(events.page + 1)"
+          >
+            Next
+          </button>
+        </nav>
+      }
+    </section>
+  </section>
+}

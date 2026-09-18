@@ -1,0 +1,104 @@
+.page-heading {
+  align-items: start;
+  display: flex;
+  gap: var(--space-3);
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+.page-heading h1 {
+  margin: 0;
+}
+.page-heading p {
+  color: var(--color-text-muted);
+  margin-bottom: 0;
+}
+.action-link,
+button {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--color-primary-contrast);
+  padding: 0.55rem 0.75rem;
+  text-decoration: none;
+}
+.filters {
+  align-items: end;
+  display: grid;
+  gap: var(--space-2);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: var(--space-4);
+}
+.filters label {
+  display: grid;
+  gap: var(--space-1);
+}
+.filters input,
+.filters select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: inherit;
+  padding: 0.5rem;
+}
+.secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.table-wrapper {
+  overflow-x: auto;
+}
+table {
+  border-collapse: collapse;
+  min-width: 60rem;
+  width: 100%;
+}
+th,
+td {
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+.status {
+  border-radius: 999px;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.2rem 0.45rem;
+}
+.healthy {
+  background: var(--color-healthy);
+}
+.warning {
+  background: var(--color-warning);
+}
+.critical {
+  background: var(--color-critical);
+}
+.pagination {
+  align-items: center;
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.pagination button {
+  cursor: pointer;
+}
+.pagination button:disabled {
+  opacity: 0.55;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+@media (max-width: 45rem) {
+  .page-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+}

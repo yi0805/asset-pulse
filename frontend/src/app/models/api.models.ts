@@ -23,6 +23,15 @@ export interface Asset {
   status: AssetStatus;
 }
 
+export interface AssetUpsertRequest {
+  name: string;
+  assetCode: string;
+  type: string;
+  location: string;
+  temperature: number | null;
+  pressure: number | null;
+}
+
 export interface AssetEvent {
   id: number;
   assetId: number;
