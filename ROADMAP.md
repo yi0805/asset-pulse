@@ -1,6 +1,6 @@
 # AssetPulse roadmap
 
-Task 000 and Task 001 are complete. Tasks 002-011 are the remaining baseline; Task 012 is optional. **Next: Task 002 — SQL Server and EF Core data model.**
+Tasks 000-003 are complete. Tasks 004-011 are the remaining baseline; Task 012 is optional. **Next: Task 004 — Angular application shell.**
 
 Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Every task updates this file and creates its own completion handoff under `docs/handoffs/`. Read [AGENTS.md](AGENTS.md), [architecture](docs/ARCHITECTURE.md), and the latest completed handoff before starting. Run applicable completion commands from AGENTS.md and record exact results. A fresh session should implement only one authorized task.
 
@@ -9,7 +9,7 @@ Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Ever
 | 000 | Project planning and architecture | Complete | None |
 | 001 | Application scaffold | Complete | 000; user approval |
 | 002 | SQL Server and EF Core data model | Complete | 001 |
-| 003 | Core ASP.NET read API | Planned | 002 |
+| 003 | Core ASP.NET read API | Complete | 002 |
 | 004 | Angular application shell | Planned | 003 |
 | 005 | Asset management | Planned | 003, 004 |
 | 006 | Alarm management | Planned | 005 |

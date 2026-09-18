@@ -1,6 +1,6 @@
 # AssetPulse
 
-AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 002 adds its SQL Server persistence model and deterministic development seed data; API resource contracts and user-interface features remain deferred to later roadmap tasks.
+AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 003 adds its read-only REST API over the Task 002 SQL Server model; write operations and user-interface features remain deferred to later roadmap tasks.
 
 ## Selected stack
 
@@ -67,6 +67,29 @@ dotnet run --project backend/src/AssetPulse.Api --launch-profile http
 ```
 
 The API listens at `http://localhost:5200`; its health endpoint is `http://localhost:5200/api/health`.
+
+## Read API and OpenAPI
+
+In Development, Swagger UI is available at `http://localhost:5200/swagger` and its OpenAPI JSON document is at `http://localhost:5200/swagger/v1/swagger.json`. Enums are returned as strings. Expected input failures and missing resources use `application/problem+json`; validation responses include an `errors` map and every Problem Details response includes a `traceId`.
+
+| Endpoint | Query parameters | Ordering |
+| --- | --- | --- |
+| `GET /api/assets` | `search`, `type`, `location`, `status` (`Healthy`, `Warning`, `Critical`), `page`, `pageSize` | `AssetCode`, then `Id` |
+| `GET /api/assets/{id}` | None | N/A |
+| `GET /api/assets/{id}/events` | `page`, `pageSize` | `Timestamp` DESC, then `Id` DESC |
+| `GET /api/alarms` | `assetId`, `severity` (`Warning`, `Critical`), `status` (`Active`, `Acknowledged`, `Resolved`), `page`, `pageSize` | `CreatedAt` DESC, then `Id` DESC |
+
+List responses are shaped as `{ "items": [], "page": 1, "pageSize": 20, "totalCount": 0 }`. `page` defaults to 1, `pageSize` defaults to 20 and is capped at 100; both must be positive. Text filters are trimmed and blank text is ignored. Unsupported enum values, non-positive page values, and page sizes above 100 return a 400 validation Problem Details response. A valid filter with no records returns an empty 200 page.
+
+Asset `status` is calculated in SQL from unresolved alarms: an Active or Acknowledged Critical alarm takes precedence, then an Active or Acknowledged Warning alarm, otherwise the asset is Healthy. Resolved alarms do not affect status.
+
+Example requests:
+
+```powershell
+Invoke-RestMethod "http://localhost:5200/api/assets?search=pump&status=Warning&page=1&pageSize=20"
+Invoke-RestMethod "http://localhost:5200/api/assets/1/events?page=1&pageSize=20"
+Invoke-RestMethod "http://localhost:5200/api/alarms?severity=Critical&status=Active"
+```
 
 In a second terminal, install and start the frontend:
 
