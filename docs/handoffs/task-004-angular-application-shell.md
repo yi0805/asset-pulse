@@ -56,7 +56,7 @@ The dashboard, asset list/detail/create/edit, and alarm management pages are pla
 
 ## Git state / commit
 
-Branch: `task/004-angular-application-shell`, created from `8dc18b2321ecd31ac30b81a3fe23766f8c98f740` (`main` and `origin/main` after merged PR #3). This handoff is included in the Task 004 commit after final diff review; the final commit and PR are reported with the task completion.
+Branch: `task/004-angular-application-shell`, created from `8dc18b2321ecd31ac30b81a3fe23766f8c98f740` (`main` and `origin/main` after merged PR #3). Task 004 was committed as `8381b77e448d181565e5f7bee2c26bf9b7628896`; PR #4 is open against `main`.
 
 ## Exact recommended next task
 

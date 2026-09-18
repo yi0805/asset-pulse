@@ -1,6 +1,6 @@
 # AssetPulse
 
-AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 003 adds its read-only REST API over the Task 002 SQL Server model; write operations and user-interface features remain deferred to later roadmap tasks.
+AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 003 established the read-only REST API, and Task 004 established the responsive Angular shell and typed read clients; asset and alarm management remain deferred to later tasks.
 
 ## Selected stack
 

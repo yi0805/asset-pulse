@@ -1,6 +1,6 @@
 # AssetPulse roadmap
 
-Tasks 000-003 are complete. Tasks 004-011 are the remaining baseline; Task 012 is optional. **Next: Task 004 — Angular application shell.**
+Tasks 000-004 are complete. Tasks 005-011 remain in the baseline; Task 012 is optional. **Next: Task 005 — Asset management.**
 
 Status values: `Planned`, `In progress`, `Blocked`, `Complete`, `Optional`. Every task updates this file and creates its own completion handoff under `docs/handoffs/`. Read [AGENTS.md](AGENTS.md), [architecture](docs/ARCHITECTURE.md), and the latest completed handoff before starting. Run applicable completion commands from AGENTS.md and record exact results. A fresh session should implement only one authorized task.
 
