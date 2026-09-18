@@ -1,6 +1,23 @@
-<main>
-  <section aria-labelledby="page-title">
-    <h1 id="page-title">{{ title }}</h1>
-    <p>Application scaffold in place. Asset monitoring features will be added in later tasks.</p>
-  </section>
-</main>
+<div class="app-shell">
+  <header class="app-header">
+    <a class="brand" routerLink="/dashboard" aria-label="AssetPulse dashboard">
+      <span class="brand-name">AssetPulse</span>
+      <span class="brand-context">Industrial asset monitoring</span>
+    </a>
+
+    <nav aria-label="Primary navigation">
+      <a routerLink="/dashboard" routerLinkActive="is-active">Dashboard</a>
+      <a
+        routerLink="/assets"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: false }"
+        >Assets</a
+      >
+      <a routerLink="/alarms" routerLinkActive="is-active">Alarms</a>
+    </nav>
+  </header>
+
+  <main class="app-content" tabindex="-1">
+    <router-outlet />
+  </main>
+</div>

@@ -1,0 +1,29 @@
+.not-found-page {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  max-width: 48rem;
+  padding: var(--space-6);
+}
+
+.not-found-page h1 {
+  margin: 0 0 var(--space-2);
+}
+
+.not-found-page p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0 0 var(--space-4);
+}
+
+.not-found-page .eyebrow {
+  color: var(--color-primary);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-2);
+}
+
+.not-found-page a {
+  color: var(--color-primary);
+  font-weight: 700;
+}
