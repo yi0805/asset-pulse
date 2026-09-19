@@ -1,7 +1,7 @@
 # Task 005 — Asset management
 
 - Date: 2026-09-18
-- Status: Complete
+- Status: In progress
 - Roadmap entry: [Task 005](../../ROADMAP.md#task-005--asset-management)
 
 ## Objective
@@ -38,7 +38,7 @@ No schema migration was needed: Task 002's constraints, decimal columns, unique 
 
 ## Known limitations
 
-Task 006 alarm management has not started. Dashboard and alarms remain intentional placeholders. Final browser-only manual smoke/accessibility evidence still belongs to later Task 009/010 consolidation.
+Automated verification is complete, but required Task 005 manual browser end-to-end verification is pending. Task 006 alarm management has not started. Dashboard and alarms remain intentional placeholders.
 
 ## Git state / commit
 
