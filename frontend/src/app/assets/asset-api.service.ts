@@ -6,6 +6,7 @@ import {
   AssetEvent,
   AssetEventListQuery,
   AssetListQuery,
+  AssetUpsertRequest,
   PagedResponse,
 } from '../models/api.models';
 
@@ -27,6 +28,14 @@ export class AssetApiService {
     return this.http.get<PagedResponse<AssetEvent>>(`/api/assets/${id}/events`, {
       params: buildParams(query),
     });
+  }
+
+  createAsset(request: AssetUpsertRequest): Observable<Asset> {
+    return this.http.post<Asset>('/api/assets', request);
+  }
+
+  updateAsset(id: number, request: AssetUpsertRequest): Observable<Asset> {
+    return this.http.put<Asset>(`/api/assets/${id}`, request);
   }
 }
 

@@ -1,6 +1,6 @@
 # AssetPulse
 
-AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 003 established the read-only REST API, and Task 004 established the responsive Angular shell and typed read clients; asset and alarm management remain deferred to later tasks.
+AssetPulse is a local, synthetic industrial asset monitoring portfolio application. Task 005 adds the complete asset-management workflow; alarm management remains deferred to Task 006.
 
 ## Selected stack
 
@@ -68,7 +68,7 @@ dotnet run --project backend/src/AssetPulse.Api --launch-profile http
 
 The API listens at `http://localhost:5200`; its health endpoint is `http://localhost:5200/api/health`.
 
-## Read API and OpenAPI
+## Asset API and OpenAPI
 
 In Development, Swagger UI is available at `http://localhost:5200/swagger` and its OpenAPI JSON document is at `http://localhost:5200/swagger/v1/swagger.json`. Enums are returned as strings. Expected input failures and missing resources use `application/problem+json`; validation responses include an `errors` map and every Problem Details response includes a `traceId`.
 
@@ -77,17 +77,22 @@ In Development, Swagger UI is available at `http://localhost:5200/swagger` and i
 | `GET /api/assets` | `search`, `type`, `location`, `status` (`Healthy`, `Warning`, `Critical`), `page`, `pageSize` | `AssetCode`, then `Id` |
 | `GET /api/assets/{id}` | None | N/A |
 | `GET /api/assets/{id}/events` | `page`, `pageSize` | `Timestamp` DESC, then `Id` DESC |
+| `POST /api/assets` | JSON editable asset fields | Creates an asset and initial Healthy event |
+| `PUT /api/assets/{id}` | JSON editable asset fields | Fully updates editable fields |
 | `GET /api/alarms` | `assetId`, `severity` (`Warning`, `Critical`), `status` (`Active`, `Acknowledged`, `Resolved`), `page`, `pageSize` | `CreatedAt` DESC, then `Id` DESC |
 
 List responses are shaped as `{ "items": [], "page": 1, "pageSize": 20, "totalCount": 0 }`. `page` defaults to 1, `pageSize` defaults to 20 and is capped at 100; both must be positive. Text filters are trimmed and blank text is ignored. Unsupported enum values, non-positive page values, and page sizes above 100 return a 400 validation Problem Details response. A valid filter with no records returns an empty 200 page.
 
 Asset `status` is calculated in SQL from unresolved alarms: an Active or Acknowledged Critical alarm takes precedence, then an Active or Acknowledged Warning alarm, otherwise the asset is Healthy. Resolved alarms do not affect status.
 
+POST and PUT accept only `name`, `assetCode`, `type`, `location`, `temperature`, and `pressure`. Required text is trimmed; `assetCode` is trimmed and invariant-uppercased. Name, asset code, type, and location have maxima of 100, 32, 50, and 100 characters. Temperature is optional but cannot be below -273.15 °C; pressure is optional but cannot be negative; both accept at most two decimal places. A duplicate normalized asset code returns `409 application/problem+json` with an `errors.assetCode` entry. IDs, status, timestamps, alarms, and events remain server-owned.
+
 Example requests:
 
 ```powershell
 Invoke-RestMethod "http://localhost:5200/api/assets?search=pump&status=Warning&page=1&pageSize=20"
 Invoke-RestMethod "http://localhost:5200/api/assets/1/events?page=1&pageSize=20"
+Invoke-RestMethod "http://localhost:5200/api/assets" -Method Post -ContentType application/json -Body '{"name":"Demo pump","assetCode":"PUMP-001","type":"Pump","location":"North plant","temperature":20,"pressure":100}'
 Invoke-RestMethod "http://localhost:5200/api/alarms?severity=Critical&status=Active"
 ```
 
@@ -101,7 +106,7 @@ npm start
 
 The Angular development server listens at `http://localhost:4200`. `frontend/proxy.conf.json` forwards relative `/api` requests to the API, so `http://localhost:4200/api/health` reaches the same health endpoint without enabling CORS.
 
-Task 004 adds the responsive Angular application shell and primary navigation. `/` redirects to `/dashboard`; `/dashboard`, `/assets`, `/assets/new`, `/assets/:id`, `/assets/:id/edit`, and `/alarms` are intentionally explicit placeholders until their respective feature tasks. Unknown routes display a Not Found page with a Dashboard link.
+Task 005 makes `/assets`, `/assets/new`, `/assets/:id`, and `/assets/:id/edit` usable. The list keeps search, type, location, status, and page in the URL, presents retry/empty states, and links to detail/create. Detail includes paginated status history. The shared create/edit form validates editable fields, preserves input after failed requests, and maps server validation or duplicate-code feedback to the relevant field. `/dashboard` and `/alarms` remain placeholders. Unknown routes display a Not Found page with a Dashboard link.
 
 ## Quality commands
 
@@ -122,7 +127,7 @@ dotnet test backend/AssetPulse.sln --no-build
 Remove-Item Env:ASSET_PULSE_TEST_CONNECTION
 ```
 
-The test creates a randomly named `AssetPulse_Task002Tests_<guid>` database, applies migrations, verifies schema/indexes, foreign-key and normalized-code constraints, and seeds twice. Its cleanup is guarded to delete only databases with that exact prefix. If a test process is interrupted, inspect the name and remove only that disposable database; it never resets the `AssetPulse` development database.
+The test creates a randomly named `AssetPulse_ApiTests_<guid>` database, applies migrations, verifies schema/indexes, read/write contracts, foreign-key and normalized-code constraints, and seeds twice. Its cleanup is guarded to delete only that exact prefix. If a test process is interrupted, inspect the name and remove only that disposable database; it never resets the `AssetPulse` development database.
 
 From `frontend/`:
 

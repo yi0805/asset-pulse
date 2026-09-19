@@ -1,6 +1,10 @@
 import { Routes } from '@angular/router';
 import { NotFoundPage } from './shared/not-found-page/not-found-page';
 import { PlaceholderPage } from './shared/placeholder-page/placeholder-page';
+import { AssetsPage } from './assets/assets-page/assets-page';
+import { AssetDetailPage } from './assets/asset-detail-page/asset-detail-page';
+import { AssetCreatePage } from './assets/asset-create-page/asset-create-page';
+import { AssetEditPage } from './assets/asset-edit-page/asset-edit-page';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -15,35 +19,19 @@ export const routes: Routes = [
   },
   {
     path: 'assets',
-    component: PlaceholderPage,
-    data: {
-      title: 'Assets',
-      description: 'Asset management is not complete yet. It will be added in Task 005.',
-    },
+    component: AssetsPage,
   },
   {
     path: 'assets/new',
-    component: PlaceholderPage,
-    data: {
-      title: 'Create asset',
-      description: 'Asset creation is not complete yet. It will be added in Task 005.',
-    },
+    component: AssetCreatePage,
   },
   {
     path: 'assets/:id/edit',
-    component: PlaceholderPage,
-    data: {
-      title: 'Edit asset',
-      description: 'Asset editing is not complete yet. It will be added in Task 005.',
-    },
+    component: AssetEditPage,
   },
   {
     path: 'assets/:id',
-    component: PlaceholderPage,
-    data: {
-      title: 'Asset detail',
-      description: 'Asset details are not complete yet. They will be added in Task 005.',
-    },
+    component: AssetDetailPage,
   },
   {
     path: 'alarms',

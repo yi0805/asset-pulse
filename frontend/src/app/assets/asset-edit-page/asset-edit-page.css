@@ -1,0 +1,16 @@
+p {
+  color: var(--color-text-muted);
+}
+.save-error {
+  color: var(--color-critical);
+  font-weight: 600;
+}
+.cancel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text);
+  cursor: pointer;
+  margin-top: var(--space-3);
+  padding: 0.6rem 1rem;
+}

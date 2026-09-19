@@ -1,0 +1,43 @@
+.form-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: var(--space-4);
+}
+label {
+  display: grid;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+input {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font: inherit;
+  padding: 0.55rem;
+}
+small {
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+.field-error {
+  color: var(--color-critical);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+button {
+  background: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  color: var(--color-primary-contrast);
+  cursor: pointer;
+  padding: 0.6rem 1rem;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+@media (max-width: 38rem) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

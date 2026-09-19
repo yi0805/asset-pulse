@@ -1,0 +1,12 @@
+<section aria-labelledby="create-heading">
+  <h1 id="create-heading">Create asset</h1>
+  <p>Enter the editable asset details and current manual readings.</p>
+  @if (error(); as saveError) {
+    @if (!saveError.errors) {
+      <p role="alert" class="save-error">{{ saveError.detail || saveError.title }}</p>
+    }
+  }
+  <app-asset-form [saving]="saving()" (submitted)="save($event)" /><a routerLink="/assets"
+    >Cancel</a
+  >
+</section>

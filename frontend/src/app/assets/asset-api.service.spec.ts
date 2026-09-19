@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Asset, AssetEvent, PagedResponse } from '../models/api.models';
+import { Asset, AssetEvent, AssetUpsertRequest, PagedResponse } from '../models/api.models';
 import { AssetApiService } from './asset-api.service';
 
 describe('AssetApiService', () => {
@@ -102,5 +102,41 @@ describe('AssetApiService', () => {
     } satisfies PagedResponse<AssetEvent>);
 
     expect(response?.items[0].newStatus).toBe('Warning');
+  });
+
+  it('creates an asset with only the editable request fields', () => {
+    const request: AssetUpsertRequest = {
+      name: 'Pump',
+      assetCode: 'PUMP-001',
+      type: 'Pump',
+      location: 'West',
+      temperature: null,
+      pressure: 0,
+    };
+    service.createAsset(request).subscribe((response) => expect(response.id).toBe(1));
+
+    const httpRequest = httpTesting.expectOne('/api/assets');
+    expect(httpRequest.request.method).toBe('POST');
+    expect(httpRequest.request.body).toEqual(request);
+    httpRequest.flush(asset);
+  });
+
+  it('updates an asset with only the editable request fields', () => {
+    const request: AssetUpsertRequest = {
+      name: 'Updated pump',
+      assetCode: 'PUMP-001',
+      type: 'Pump',
+      location: 'East',
+      temperature: 10,
+      pressure: null,
+    };
+    service
+      .updateAsset(12, request)
+      .subscribe((response) => expect(response.name).toBe('Boiler feed pump'));
+
+    const httpRequest = httpTesting.expectOne('/api/assets/12');
+    expect(httpRequest.request.method).toBe('PUT');
+    expect(httpRequest.request.body).toEqual(request);
+    httpRequest.flush(asset);
   });
 });

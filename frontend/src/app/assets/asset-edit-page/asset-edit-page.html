@@ -1,0 +1,31 @@
+@if (loading()) {
+  <app-loading-state message="Loading asset…" />
+} @else if (error() && !asset()) {
+  <app-error-state
+    [message]="
+      error()!.status === 404 ? 'This asset does not exist.' : error()!.detail || error()!.title
+    "
+    [canRetry]="true"
+    (retry)="retry()"
+  />
+} @else if (asset(); as asset) {
+  @if (formValue(); as formValue) {
+    <section aria-labelledby="edit-heading">
+      <h1 id="edit-heading">Edit asset</h1>
+      <p>
+        Current derived status: <strong>{{ asset.status }}</strong
+        >. Status is read-only.
+      </p>
+      @if (error(); as saveError) {
+        @if (!saveError.errors) {
+          <p class="save-error" role="alert">{{ saveError.detail || saveError.title }}</p>
+        }
+      }
+      <app-asset-form
+        [initialValue]="formValue"
+        [saving]="saving()"
+        (submitted)="save($event)"
+      /><button type="button" class="cancel" (click)="cancel()">Cancel</button>
+    </section>
+  }
+}

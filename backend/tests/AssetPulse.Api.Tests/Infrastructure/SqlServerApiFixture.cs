@@ -10,7 +10,7 @@ namespace AssetPulse.Api.Tests.Infrastructure;
 
 public sealed class SqlServerApiFixture : WebApplicationFactory<Program>, IAsyncLifetime
 {
-    private const string TestDatabasePrefix = "AssetPulse_Task003Tests_";
+    private const string TestDatabasePrefix = "AssetPulse_ApiTests_";
     private readonly string? configuredConnectionString = Environment.GetEnvironmentVariable("ASSET_PULSE_TEST_CONNECTION");
     private string? databaseName;
 
@@ -223,7 +223,7 @@ public sealed class SqlServerApiFixture : WebApplicationFactory<Program>, IAsync
     {
         if (!name.StartsWith(TestDatabasePrefix, StringComparison.Ordinal))
         {
-            throw new InvalidOperationException("Refusing to drop a database outside the Task 003 test naming convention.");
+            throw new InvalidOperationException("Refusing to drop a database outside the API test naming convention.");
         }
 
         await using var connection = new SqlConnection(connectionString);

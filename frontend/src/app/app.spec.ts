@@ -48,7 +48,6 @@ describe('App routing and shell', () => {
 
   it.each([
     ['/dashboard', 'Dashboard'],
-    ['/assets', 'Assets'],
     ['/alarms', 'Alarms'],
   ])('renders the %s placeholder', async (url, title) => {
     const page = await navigate(url);

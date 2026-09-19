@@ -32,6 +32,8 @@ builder.Services.AddDbContext<AssetPulseDbContext>(options =>
         ?? "Server=127.0.0.1,1433;Database=AssetPulse;User Id=sa;TrustServerCertificate=True"));
 builder.Services.AddScoped<DevelopmentDataSeeder>();
 builder.Services.AddScoped<IAssetReadService, AssetReadService>();
+builder.Services.AddScoped<IAssetWriteService, AssetWriteService>();
+builder.Services.AddSingleton(TimeProvider.System);
 
 var app = builder.Build();
 
