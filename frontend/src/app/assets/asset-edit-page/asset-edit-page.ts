@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Asset, AssetUpsertRequest } from '../../models/api.models';
 import { ApiError, mapApiError } from '../../shared/api-error';
@@ -18,11 +18,11 @@ export class AssetEditPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   @ViewChild(AssetForm) private form?: AssetForm;
-  asset: Asset | null = null;
-  formValue: AssetUpsertRequest | null = null;
-  error: ApiError | null = null;
-  loading = true;
-  saving = false;
+  readonly asset = signal<Asset | null>(null);
+  readonly formValue = signal<AssetUpsertRequest | null>(null);
+  readonly error = signal<ApiError | null>(null);
+  readonly loading = signal(true);
+  readonly saving = signal(false);
   private id = Number(this.route.snapshot.paramMap.get('id'));
 
   constructor() {
@@ -35,38 +35,38 @@ export class AssetEditPage {
     void this.router.navigate(['/assets', this.id]);
   }
   save(request: AssetUpsertRequest): void {
-    if (this.saving) return;
-    this.saving = true;
-    this.error = null;
+    if (this.saving()) return;
+    this.saving.set(true);
+    this.error.set(null);
     this.api.updateAsset(this.id, request).subscribe({
       next: () => void this.router.navigate(['/assets', this.id]),
       error: (response) => {
-        this.error = mapApiError(response);
-        this.form?.applyServerErrors(this.error.errors);
-        this.saving = false;
+        this.error.set(mapApiError(response));
+        this.form?.applyServerErrors(this.error()?.errors);
+        this.saving.set(false);
       },
     });
   }
 
   private load(): void {
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
     this.api.getAsset(this.id).subscribe({
       next: (asset) => {
-        this.asset = asset;
-        this.formValue = {
+        this.asset.set(asset);
+        this.formValue.set({
           name: asset.name,
           assetCode: asset.assetCode,
           type: asset.type,
           location: asset.location,
           temperature: asset.temperature,
           pressure: asset.pressure,
-        };
-        this.loading = false;
+        });
+        this.loading.set(false);
       },
       error: (response) => {
-        this.error = mapApiError(response);
-        this.loading = false;
+        this.error.set(mapApiError(response));
+        this.loading.set(false);
       },
     });
   }

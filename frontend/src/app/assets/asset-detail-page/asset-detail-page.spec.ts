@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, of, Subject, throwError } from 'rxjs';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { AssetDetailPage } from './asset-detail-page';
 import { AssetApiService } from '../asset-api.service';
@@ -70,5 +70,29 @@ describe('AssetDetailPage', () => {
     const errorFixture = TestBed.createComponent(AssetDetailPage);
     errorFixture.detectChanges();
     expect((errorFixture.nativeElement as HTMLElement).textContent).toContain('does not exist');
+  });
+
+  it('renders delayed asset and history responses without a follow-up detectChanges call', async () => {
+    const delayedAsset = new Subject<Asset>();
+    const delayedEvents = new Subject<PagedResponse<AssetEvent>>();
+    api.getAsset.mockReset();
+    api.getEvents.mockReset();
+    api.getAsset.mockReturnValue(delayedAsset);
+    api.getEvents.mockReturnValue(delayedEvents);
+
+    const asyncFixture = TestBed.createComponent(AssetDetailPage);
+    asyncFixture.detectChanges();
+    expect((asyncFixture.nativeElement as HTMLElement).textContent).toContain('Loading asset…');
+
+    delayedAsset.next(asset);
+    delayedAsset.complete();
+    delayedEvents.next(events);
+    delayedEvents.complete();
+    await asyncFixture.whenStable();
+
+    const page = asyncFixture.nativeElement as HTMLElement;
+    expect(page.textContent).not.toContain('Loading asset…');
+    expect(page.textContent).toContain('North pump');
+    expect(page.textContent).toContain('Initial → Healthy');
   });
 });

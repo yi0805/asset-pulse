@@ -20,66 +20,74 @@
     ><button type="submit">Apply filters</button
     ><button type="button" class="secondary" (click)="reset()">Reset</button>
   </form>
-  @if (loading) {
+  @if (loading()) {
     <app-loading-state message="Loading assets…" />
-  } @else if (error) {
-    <app-error-state [message]="error.detail || error.title" [canRetry]="true" (retry)="retry()" />
-  } @else if (assets && assets.items.length === 0) {
-    <app-empty-state
-      [message]="
-        queryHasFilters() ? 'No assets match these filters.' : 'No assets are available yet.'
-      "
+  } @else if (error(); as pageError) {
+    <app-error-state
+      [message]="pageError.detail || pageError.title"
+      [canRetry]="true"
+      (retry)="retry()"
     />
-  } @else if (assets) {
-    <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Asset code</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Temperature</th>
-            <th>Pressure</th>
-            <th>Last updated</th>
-            <th><span class="sr-only">Action</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (asset of assets.items; track asset.id) {
+  } @else if (assets(); as assets) {
+    @if (assets.items.length === 0) {
+      <app-empty-state
+        [message]="
+          queryHasFilters() ? 'No assets match these filters.' : 'No assets are available yet.'
+        "
+      />
+    } @else {
+      <div class="table-wrapper">
+        <table>
+          <thead>
             <tr>
-              <td>{{ asset.assetCode }}</td>
-              <td>{{ asset.name }}</td>
-              <td>{{ asset.type }}</td>
-              <td>{{ asset.location }}</td>
-              <td>
-                <span class="status {{ asset.status.toLowerCase() }}">{{ asset.status }}</span>
-              </td>
-              <td>{{ measurement(asset.temperature, '°C') }}</td>
-              <td>{{ measurement(asset.pressure, 'kPa') }}</td>
-              <td>
-                <time [dateTime]="asset.lastUpdated">{{ asset.lastUpdated | date: 'medium' }}</time>
-              </td>
-              <td><a [routerLink]="['/assets', asset.id]">Details</a></td>
+              <th>Asset code</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Temperature</th>
+              <th>Pressure</th>
+              <th>Last updated</th>
+              <th><span class="sr-only">Action</span></th>
             </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-    <nav class="pagination" aria-label="Asset pages">
-      <span
-        >Page {{ assets.page }} of
-        {{ Math.max(1, Math.ceil(assets.totalCount / assets.pageSize)) }}</span
-      ><button type="button" [disabled]="assets.page === 1" (click)="changePage(assets.page - 1)">
-        Previous</button
-      ><button
-        type="button"
-        [disabled]="assets.page * assets.pageSize >= assets.totalCount"
-        (click)="changePage(assets.page + 1)"
-      >
-        Next
-      </button>
-    </nav>
+          </thead>
+          <tbody>
+            @for (asset of assets.items; track asset.id) {
+              <tr>
+                <td>{{ asset.assetCode }}</td>
+                <td>{{ asset.name }}</td>
+                <td>{{ asset.type }}</td>
+                <td>{{ asset.location }}</td>
+                <td>
+                  <span class="status {{ asset.status.toLowerCase() }}">{{ asset.status }}</span>
+                </td>
+                <td>{{ measurement(asset.temperature, '°C') }}</td>
+                <td>{{ measurement(asset.pressure, 'kPa') }}</td>
+                <td>
+                  <time [dateTime]="asset.lastUpdated">{{
+                    asset.lastUpdated | date: 'medium'
+                  }}</time>
+                </td>
+                <td><a [routerLink]="['/assets', asset.id]">Details</a></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <nav class="pagination" aria-label="Asset pages">
+        <span
+          >Page {{ assets.page }} of
+          {{ Math.max(1, Math.ceil(assets.totalCount / assets.pageSize)) }}</span
+        ><button type="button" [disabled]="assets.page === 1" (click)="changePage(assets.page - 1)">
+          Previous</button
+        ><button
+          type="button"
+          [disabled]="assets.page * assets.pageSize >= assets.totalCount"
+          (click)="changePage(assets.page + 1)"
+        >
+          Next
+        </button>
+      </nav>
+    }
   }
 </section>

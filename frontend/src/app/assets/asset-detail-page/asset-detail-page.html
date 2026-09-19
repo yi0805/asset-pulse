@@ -1,12 +1,14 @@
-@if (loading) {
+@if (loading()) {
   <app-loading-state message="Loading asset…" />
-} @else if (error) {
+} @else if (error(); as pageError) {
   <app-error-state
-    [message]="error.status === 404 ? 'This asset does not exist.' : error.detail || error.title"
+    [message]="
+      pageError.status === 404 ? 'This asset does not exist.' : pageError.detail || pageError.title
+    "
     [canRetry]="true"
     (retry)="retry()"
   />
-} @else if (asset) {
+} @else if (asset(); as asset) {
   <section aria-labelledby="asset-heading">
     <div class="heading">
       <div>
@@ -47,9 +49,9 @@
     </dl>
     <section aria-labelledby="history-heading">
       <h2 id="history-heading">Status history</h2>
-      @if (events?.items?.length === 0) {
+      @if (events()?.items?.length === 0) {
         <app-empty-state message="No status history is available." />
-      } @else if (events) {
+      } @else if (events(); as events) {
         <ol class="history">
           @for (event of events.items; track event.id) {
             <li>

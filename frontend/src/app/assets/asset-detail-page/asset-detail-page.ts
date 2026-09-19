@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { catchError, forkJoin, of, switchMap } from 'rxjs';
 import { ApiError, mapApiError } from '../../shared/api-error';
@@ -18,10 +18,10 @@ import { AssetApiService } from '../asset-api.service';
 export class AssetDetailPage {
   private readonly api = inject(AssetApiService);
   private readonly route = inject(ActivatedRoute);
-  asset: Asset | null = null;
-  events: PagedResponse<AssetEvent> | null = null;
-  error: ApiError | null = null;
-  loading = true;
+  readonly asset = signal<Asset | null>(null);
+  readonly events = signal<PagedResponse<AssetEvent> | null>(null);
+  readonly error = signal<ApiError | null>(null);
+  readonly loading = signal(true);
   private id = 0;
 
   constructor() {
@@ -48,24 +48,24 @@ export class AssetDetailPage {
     return `${event.previousStatus ?? 'Initial'} → ${event.newStatus}`;
   }
 
-  private load(page = this.events?.page ?? 1) {
-    this.loading = true;
-    this.error = null;
+  private load(page = this.events()?.page ?? 1) {
+    this.loading.set(true);
+    this.error.set(null);
     return forkJoin({
       asset: this.api.getAsset(this.id),
       events: this.api.getEvents(this.id, { page }),
     }).pipe(
       catchError((response) => {
-        this.error = mapApiError(response);
-        this.loading = false;
+        this.error.set(mapApiError(response));
+        this.loading.set(false);
         return of(null);
       }),
       switchMap((result) => {
         if (result) {
-          this.asset = result.asset;
-          this.events = result.events;
+          this.asset.set(result.asset);
+          this.events.set(result.events);
         }
-        this.loading = false;
+        this.loading.set(false);
         return of(result);
       }),
     );

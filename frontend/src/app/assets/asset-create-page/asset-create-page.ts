@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, ViewChild, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AssetUpsertRequest } from '../../models/api.models';
 import { ApiError, mapApiError } from '../../shared/api-error';
@@ -15,19 +15,19 @@ export class AssetCreatePage {
   private readonly api = inject(AssetApiService);
   private readonly router = inject(Router);
   @ViewChild(AssetForm) private form?: AssetForm;
-  saving = false;
-  error: ApiError | null = null;
+  readonly saving = signal(false);
+  readonly error = signal<ApiError | null>(null);
 
   save(request: AssetUpsertRequest): void {
-    if (this.saving) return;
-    this.saving = true;
-    this.error = null;
+    if (this.saving()) return;
+    this.saving.set(true);
+    this.error.set(null);
     this.api.createAsset(request).subscribe({
       next: (asset) => void this.router.navigate(['/assets', asset.id]),
       error: (response) => {
-        this.error = mapApiError(response);
-        this.form?.applyServerErrors(this.error.errors);
-        this.saving = false;
+        this.error.set(mapApiError(response));
+        this.form?.applyServerErrors(this.error()?.errors);
+        this.saving.set(false);
       },
     });
   }

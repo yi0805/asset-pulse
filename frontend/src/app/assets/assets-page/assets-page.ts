@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { catchError, of, switchMap } from 'rxjs';
@@ -22,9 +22,9 @@ export class AssetsPage {
   private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   readonly filters = this.formBuilder.group({ search: '', type: '', location: '', status: '' });
-  assets: PagedResponse<Asset> | null = null;
-  error: ApiError | null = null;
-  loading = true;
+  readonly assets = signal<PagedResponse<Asset> | null>(null);
+  readonly error = signal<ApiError | null>(null);
+  readonly loading = signal(true);
   readonly Math = Math;
   private query: AssetListQuery = {};
 
@@ -94,21 +94,21 @@ export class AssetsPage {
   }
 
   private fetch(query: AssetListQuery) {
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
     return this.api
       .getAssets(query)
       .pipe(
         catchError((response) => {
-          this.error = mapApiError(response);
-          this.loading = false;
+          this.error.set(mapApiError(response));
+          this.loading.set(false);
           return of(null);
         }),
       )
       .pipe(
         switchMap((result) => {
-          this.assets = result;
-          this.loading = false;
+          this.assets.set(result);
+          this.loading.set(false);
           return of(result);
         }),
       );
